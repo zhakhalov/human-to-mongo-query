@@ -18,7 +18,7 @@ const projectionOperators = {
 const logicalOperators = {
   and: '$and',
   any: '$or',
-  nor: '$nor'
+  none: '$nor'
 };
 
 function map(query) {

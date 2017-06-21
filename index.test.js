@@ -6,6 +6,9 @@ describe('Mapping', () => {
     const givenQuery = {
       firstName: 'John',
       lastName: { notEqualTo: 'Doe' },
+      country: {
+        none: [ 'UK', 'US' ]
+      },
       age: {
         any: [
           20,
@@ -30,6 +33,9 @@ describe('Mapping', () => {
     const expectedQuery = {
       firstName: 'John',
       lastName: { $ne: 'Doe' },
+      country: {
+        $nor: [ 'UK', 'US' ]
+      },
       age: {
         $or: [
           20,
