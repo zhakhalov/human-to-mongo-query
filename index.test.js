@@ -7,7 +7,7 @@ describe('Mapping', () => {
       firstName: 'John',
       lastName: { notEqualTo: 'Doe' },
       country: {
-        none: [ 'UK', 'US' ]
+        none: ['UK', 'US']
       },
       age: {
         any: [
@@ -19,6 +19,13 @@ describe('Mapping', () => {
           { in: [16, 26, 32] },
           { notIn: [17, 27, 33] },
         ]
+      },
+      $where: 'this.phones.length > 3',
+      phones: {
+        arrayLength: 1,
+      },
+      'phones.0': {
+        exists: true,
       },
       pets: {
         containsElement: {
@@ -34,7 +41,7 @@ describe('Mapping', () => {
       firstName: 'John',
       lastName: { $ne: 'Doe' },
       country: {
-        $nor: [ 'UK', 'US' ]
+        $nor: ['UK', 'US']
       },
       age: {
         $or: [
@@ -46,7 +53,14 @@ describe('Mapping', () => {
           { $in: [16, 26, 32] },
           { $nin: [17, 27, 33] },
         ]
-      }
+      },
+      $where: 'this.phones.length > 3',
+      phones: {
+        $size: 1
+      },
+      'phones.0': {
+        $exists: true,
+      },
     };
 
     const expectedProjection = {

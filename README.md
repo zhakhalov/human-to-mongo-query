@@ -83,7 +83,7 @@ const mergedQuery = Object.assign({}, result.query, result.projection);
   }
   ```
 
-  Will be mapped to:
+  Will be translated to:
   ```json
   {
     "name": { "$eq": "John" }
@@ -99,7 +99,7 @@ const mergedQuery = Object.assign({}, result.query, result.projection);
   }
   ```
 
-  Will be mapped to:
+  Will be translated to:
   ```json
   {
     "name": { "$ne": "John" }
@@ -114,7 +114,7 @@ const mergedQuery = Object.assign({}, result.query, result.projection);
   }
   ```
 
-  Will be mapped to:
+  Will be translated to:
   ```json
   {
     "age": { "$gt": 21 }
@@ -130,7 +130,7 @@ const mergedQuery = Object.assign({}, result.query, result.projection);
   }
   ```
 
-  Will be mapped to:
+  Will be translated to:
   ```json
   {
     "name": { "$gte": 21 }
@@ -146,7 +146,7 @@ const mergedQuery = Object.assign({}, result.query, result.projection);
   }
   ```
 
-  Will be mapped to:
+  Will be translated to:
   ```json
   {
     "name": { "$lt": 21 }
@@ -162,7 +162,7 @@ const mergedQuery = Object.assign({}, result.query, result.projection);
   }
   ```
 
-  Will be mapped to:
+  Will be translated to:
   ```json
   {
     "name": { "$lt": 21 }
@@ -178,7 +178,7 @@ const mergedQuery = Object.assign({}, result.query, result.projection);
   }
   ```
 
-  Will be mapped to:
+  Will be translated to:
   ```json
   {
     "name": { "$in": ["John", "Jack", "Jim"] }
@@ -194,10 +194,43 @@ const mergedQuery = Object.assign({}, result.query, result.projection);
   }
   ```
 
-  Will be mapped to:
+  Will be translated to:
   ```json
   {
     "name": { "$nin": ["John", "Jack", "Jim"] }
+  }
+  ```
+
+- exists - maps to Mongo `$exists`;
+
+  Example:
+  ```json
+  {
+    "name": { "exists": true }
+  }
+  ```
+
+  Will be translated to:
+  ```json
+  {
+    "name": { "$exists": true }
+  }
+  ```
+
+- arrayLength - maps to Mongo `$size`;
+  - Note: This operator will work only in case of strict equality. Use `$where` statement if length comparison is needed.
+
+  Example:
+  ```json
+  {
+    "phones": { "arrayLength": 1 }
+  }
+  ```
+
+  Will be translated to:
+  ```json
+  {
+    "phones": { "$size": 1 }
   }
   ```
 
@@ -217,7 +250,7 @@ const mergedQuery = Object.assign({}, result.query, result.projection);
   }
   ```
 
-  Will be mapped to:
+  Will be translated to:
   ```json
   {
     "name": {
@@ -245,7 +278,7 @@ const mergedQuery = Object.assign({}, result.query, result.projection);
   }
   ```
 
-  Will be mapped to:
+  Will be translated to:
   ```json
   {
     "name": {
@@ -273,7 +306,7 @@ const mergedQuery = Object.assign({}, result.query, result.projection);
   }
   ```
 
-  Will be mapped to:
+  Will be translated to:
   ```json
   {
     "name": {
@@ -289,7 +322,7 @@ const mergedQuery = Object.assign({}, result.query, result.projection);
 ### Projection Operators
 
 - containsElement - perform comparison on arrays of objects. Maps to `$elemMatch` projection.
-  - Note: This operator will be mapped to `projection` instead of being part of `query`
+  - Note: This operator will be translated to `projection` instead of being part of `query`
   - Note: use `equalsTo` operator if types of values are primitive (boolean, string, number)
 
   Example

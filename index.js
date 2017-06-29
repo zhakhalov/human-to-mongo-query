@@ -9,6 +9,8 @@ const comparisonOperators = {
   notEqualTo: '$ne',
   in: '$in',
   notIn: '$nin',
+  exists: '$exists',
+  arrayLength: '$size',
 };
 
 const projectionOperators = {
