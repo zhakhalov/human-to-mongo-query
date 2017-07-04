@@ -26,11 +26,11 @@ const logicalOperators = {
 function map(query) {
   query = _.cloneDeep(query);
   query = mapQuery(query);
-  const projection = mapProjection(query);
-  return { query, projection }
+  return query
 }
 
 function mapQuery(query) {
+  mapProjection(query);
   mapComparisonOperators(query);
   mapLogicalOperators(query);
   return query;
@@ -72,21 +72,14 @@ function mapLogicalOperators(query) {
 }
 
 function mapProjection(query) {
-  let projection = {};
-
   _(query).each((value, key) => {
-    if (_.isObject(value)) {
-      for (let op in projectionOperators) {
-        if (op in value) {
-          projection[key] = { [projectionOperators[op]]: value[op] };
-          mapQuery(value[projectionOperators[op]])
-          delete query[key];
-        }
+    for(let op in projectionOperators) {
+      if (key === op) {
+        query[projectionOperators[op]] = mapQuery(value);
+        delete query[key];
       }
     }
   });
-
-  return projection;
 }
 
 module.exports = map;

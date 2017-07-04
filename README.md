@@ -33,7 +33,7 @@ const query = {
 const result = map(givenQuery);
 
 /**
-`result.query` will have the following value
+`result` will have the following value
 
 {
   firstName: 'John',
@@ -48,12 +48,7 @@ const result = map(givenQuery);
       { $in: [16, 26, 32] },
       { $nin: [17, 27, 33] },
     ]
-  }
-}
-
-`result.projection`will have the following value
-
-{
+  },
   pets: {
     $elemMatch: {
       $and: [
@@ -63,11 +58,6 @@ const result = map(givenQuery);
     }
   }
 }
-
-**/
-
-// To merge query and projection in to single object
-const mergedQuery = Object.assign({}, result.query, result.projection);
 
 ```
 
@@ -322,7 +312,6 @@ const mergedQuery = Object.assign({}, result.query, result.projection);
 ### Projection Operators
 
 - containsElement - perform comparison on arrays of objects. Maps to `$elemMatch` projection.
-  - Note: This operator will be translated to `projection` instead of being part of `query`
   - Note: use `equalsTo` operator if types of values are primitive (boolean, string, number)
 
   Example

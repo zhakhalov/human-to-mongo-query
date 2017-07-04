@@ -27,14 +27,18 @@ describe('Mapping', () => {
       'phones.0': {
         exists: true,
       },
-      pets: {
-        containsElement: {
-          and: [
-            { kind: { any: [{ equalsTo: 'cat' }, { notEqualTo: 'dog' }] } },
-            { age: { lessThan: 5 } }
-          ]
+      and: [
+        {
+          pets: {
+            containsElement: {
+              and: [
+                { kind: { any: [{ equalsTo: 'cat' }, { notEqualTo: 'dog' }] } },
+                { age: { lessThan: 5 } }
+              ]
+            }
+          }
         }
-      }
+      ]
     };
 
     const expectedQuery = {
@@ -61,22 +65,22 @@ describe('Mapping', () => {
       'phones.0': {
         $exists: true,
       },
+      $and: [
+        {
+          pets: {
+            $elemMatch: {
+              $and: [
+                { kind: { $or: [{ $eq: 'cat' }, { $ne: 'dog' }] } },
+                { age: { $lt: 5 } }
+              ]
+            }
+          }
+        }
+      ]
     };
 
-    const expectedProjection = {
-      pets: {
-        $elemMatch: {
-          $and: [
-            { kind: { $or: [{ $eq: 'cat' }, { $ne: 'dog' }] } },
-            { age: { $lt: 5 } }
-          ]
-        }
-      }
-    }
 
     const result = map(givenQuery);
-
-    expect(result.query).to.be.deep.equal(expectedQuery);
-    expect(result.projection).to.be.deep.equal(expectedProjection);
+    expect(result).to.be.deep.equal(expectedQuery);
   });
 });
