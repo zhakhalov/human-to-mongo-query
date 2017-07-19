@@ -19,7 +19,9 @@ const projectionOperators = {
 
 const logicalOperators = {
   and: '$and',
+  all: '$and',
   any: '$or',
+  or: '$or',
   none: '$nor'
 };
 
@@ -40,7 +42,7 @@ function mapComparisonOperators(query) {
   _(query).each((value, key) => {
 
     // go downwards recursively
-    if (_.isObject(value) && !_.isArray(value)) {
+    if (_.isObject(value) && !_.isArray(value) && !_.isDate(value)) {
       query[key] = mapQuery(value);
       return;
     }

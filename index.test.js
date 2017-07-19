@@ -9,6 +9,7 @@ describe('Mapping', () => {
       country: {
         none: ['UK', 'US']
       },
+      dob: { lessThanOrEquals: new Date('1999-01-01') },
       age: {
         any: [
           20,
@@ -31,8 +32,8 @@ describe('Mapping', () => {
         {
           pets: {
             containsElement: {
-              and: [
-                { kind: { any: [{ equalsTo: 'cat' }, { notEqualTo: 'dog' }] } },
+              all: [
+                { kind: { or: [{ equalsTo: 'cat' }, { notEqualTo: 'dog' }] } },
                 { age: { lessThan: 5 } }
               ]
             }
@@ -47,6 +48,7 @@ describe('Mapping', () => {
       country: {
         $nor: ['UK', 'US']
       },
+      dob: { $lte: new Date('1999-01-01') },
       age: {
         $or: [
           20,
